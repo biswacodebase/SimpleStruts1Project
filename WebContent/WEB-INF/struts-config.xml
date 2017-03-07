@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" 
+"http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<!-- Form Beans -->
+	<form-beans>
+		<form-bean name="userForm"
+			type="com.simplecodeexamples.struts.form.UserForm">
+		</form-bean>
+	</form-beans>
+	<!-- Action Mappings -->
+	<action-mappings>
+		<action name="userForm" parameter="/jsp/login.jsp" path="/getUserLogIn"
+			type="org.apache.struts.actions.ForwardAction" ></action>
+		<action className="com.simplecodeexamples.struts.mapping.UserActionMapping" name="userForm" path="/userLogIn" scope="request"
+			type="com.simplecodeexamples.struts.action.UserAction" validate="false">
+			<forward name="success" path="/jsp/welcome.jsp"/>
+		</action>	
+	</action-mappings>
+</struts-config>  
