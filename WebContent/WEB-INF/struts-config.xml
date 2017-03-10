@@ -1,20 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts-config PUBLIC
           "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
           "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
 	<!-- Form Beans -->
 	<form-beans>
-		<form-bean name="userForm"
-			type="com.simplecodeexamples.struts.form.UserForm">
-		</form-bean>
+		<form-bean name="userForm" type="com.simplecodeexamples.struts.form.UserForm" />
+		<form-bean name="registrationForm" type="com.simplecodeexamples.struts.form.RegistrationForm" />
+		<form-bean name="addressForm" type="com.simplecodeexamples.struts.form.AddressForm" />
+			
 	</form-beans>
+	
+
 	<!-- Action Mappings -->
 	<action-mappings>
-		<action name="userForm" parameter="/jsp/login.jsp" path="/getUserLogIn"
-			type="org.apache.struts.actions.ForwardAction" ></action>
-		<action className="com.simplecodeexamples.struts.mapping.UserActionMapping" name="userForm" path="/userLogIn" scope="request"
-			type="com.simplecodeexamples.struts.action.UserAction" validate="false">
-			<forward name="success" path="/jsp/welcome.jsp"/>
-		</action>	
+	
+		<!-- Simple Action Example -->
+		<action name="userForm" path="/getUserLogIn"
+			type="org.apache.struts.actions.ForwardAction" parameter="/jsp/login.jsp" validate="false"/>
+		<action name="userForm" path="/userLogIn"
+			type="com.simplecodeexamples.struts.action.UserAction" className="com.simplecodeexamples.struts.mapping.UserActionMapping"
+			scope="request" validate="true">
+			<forward name="success" path="/jsp/welcome.jsp" />
+		</action>
+		
+		<!-- Forward Example -->
+		<action name="userForm" path="/getCreateUser"
+			type="org.apache.struts.actions.ForwardAction" parameter="/jsp/createuser.jsp" validate="false"/>
+			
+		<action name="userForm" path="/createUser"
+			type="com.simplecodeexamples.struts.action.CreateUserAction" className="com.simplecodeexamples.struts.mapping.UserActionMapping"
+			scope="request" validate="true" input="/getCreateUser.do">
+			<forward name="success" path="/jsp/success.jsp" />
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="back" path="/jsp/createuser.jsp" />
+		</action>
+		
+		<!-- Validation Example -->
+		<action name="registrationForm" path="/getUserRegistration"
+			type="org.apache.struts.actions.ForwardAction" parameter="/jsp/registration.jsp" validate="false"/>
+		
+		<action name="registrationForm" path="/userRegistration"
+			type="com.simplecodeexamples.struts.action.RegistrationAction" className="com.simplecodeexamples.struts.mapping.UserActionMapping"
+			scope="request" validate="true" input="/getUserRegistration">
+			<forward name="success" path="/jsp/success.jsp" />
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="back" path="/jsp/createuser.jsp" />
+		</action>
+		
+		<!-- Ajax without forward example -->
+		<action name="userForm" path="/getSystemTime"
+			type="org.apache.struts.actions.ForwardAction" parameter="/jsp/ajaxwithoutforward.jsp" validate="false"/>
+			
+		<action  path="/systemTime" type="com.simplecodeexamples.struts.action.SystemTimeAction" 
+			scope="request" validate="false">
+		</action>
+		
+		<!-- Ajax with forward example -->
+		<action name="addressForm" path="/getGeo"
+			type="org.apache.struts.actions.ForwardAction" parameter="/jsp/ajaxwithforward.jsp" validate="false">
+		</action>
+		<action name="addressForm" path="/getCountry" type="com.simplecodeexamples.struts.action.GetCountryAction" scope="request">
+			<forward name="successC" path="/jsp/countrylist.jsp"/>
+		</action>
+		
 	</action-mappings>
-</struts-config>  
+	
+	<!-- Message Resources -->
+	<message-resources parameter="com.simplecodeexamples.struts.resource.ApplicationResource" null="true"/>
+	
+	<!-- Struts validator plugin -->
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+	</plug-in>
+	
+</struts-config>		
+		
